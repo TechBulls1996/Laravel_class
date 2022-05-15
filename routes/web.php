@@ -14,18 +14,16 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('home',['title' => "Home"]);
 })->name('home');
 
 Route::get('/login', function () {
-    return view('login');
+    return view('login',['title' => "Login"]);
 })->name('login');
 
 Route::get('/register', function () {
-    return view('register');
+    return view('register',['title' => "Register"]);
 })->name('register');
-
-
 
 Route::post("/login_submit", [AuthController::class,'login'])->name('login_submit');
 
