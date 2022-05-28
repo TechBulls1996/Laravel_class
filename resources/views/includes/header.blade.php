@@ -11,9 +11,19 @@
         </ul>
 
         <ul class="nav col-6 col-lg-auto  mb-md-0" style="display: contents;">
+           @guest
            <li><a href="<?= route('login') ?>" class="nav-link px-2 link-dark">Login</a></li>
            <li><a href="<?= route('register') ?>" class="nav-link px-2 link-dark">Register</a></li>
+           @endguest
+
+           @auth
+           <li><a href="<?= route('dashboard') ?>" class="nav-link px-2 link-dark">Hello, <?= @session('userInfo')->name ?></a></li>
+           <li><a href="<?= route('logout') ?>" class="nav-link px-2 link-dark">Logout</a></li>
+           @endauth
+
          </ul> 
       </div>
     </div>
   </header>
+
+

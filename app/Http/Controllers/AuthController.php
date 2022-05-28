@@ -5,24 +5,43 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
     
   public function login(Request $req){
-       $email = $req->email;
-       $pass = $req->password;
+
+       $credentials = $req->validate([
+         'email' => ['required', 'email'],
+         'password' => ['required'],
+       ]);
+
+       if (Auth::attempt($credentials)) {
+          $req->session()->regenerate();
+          //store user session
+          $user = User::where(["email" => $req->email])->first(); 
+          session(["userInfo" => $user]);
+          return redirect()->intended('dashboard');
+       }
       
-       $user = User::where(["email" => $email])->first(); 
+       return back()->withErrors([
+         'email' => 'The provided credentials do not match our records.',
+       ])->withInput($req->all());       
+  }
 
-       if($user && Hash::check($pass, $user->password)){
-          $req->session()->flash('login_status', "true");
-       }else{
-          $req->session()->flash('login_status', "false");
-       };
+  public function register(Request $req){
+          
+   
+  }
 
-       return redirect()->route('login');
-       
+  public function logout(Request $req){
+   Auth::logout();
+   $req->session()->invalidate();
+   $req->session()->regenerateToken();
+   return redirect()->route('login');      
+     
   }
   
+
 }

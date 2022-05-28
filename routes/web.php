@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,4 +27,8 @@ Route::get('/register', function () {
 })->name('register');
 
 Route::post("/login_submit", [AuthController::class,'login'])->name('login_submit');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+//Dashboard
+Route::get('/dashboard',[HomeController::class,'dashboard'])->name('dashboard')->middleware('auth');
 
