@@ -14,7 +14,7 @@ class AuthController extends Controller
 
        $credentials = $req->validate([
          'email' => ['required', 'email'],
-         'password' => ['required'],
+         'password' => ['required','min:6'],
        ]);
 
        if (Auth::attempt($credentials)) {
@@ -22,7 +22,7 @@ class AuthController extends Controller
           //store user session
           $user = User::where(["email" => $req->email])->first(); 
           session(["userInfo" => $user]);
-          return redirect()->intended('dashboard');
+          return redirect()->intended('user/dashboard');
        }
       
        return back()->withErrors([

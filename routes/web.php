@@ -29,6 +29,17 @@ Route::get('/register', function () {
 Route::post("/login_submit", [AuthController::class,'login'])->name('login_submit');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-//Dashboard
-Route::get('/dashboard',[HomeController::class,'dashboard'])->name('dashboard')->middleware('auth');
+// User Routes
+Route::middleware(['checkUserType','auth'])->prefix('user')->group(function(){
+   
+    //Dashboard
+    Route::get('/dashboard',[HomeController::class,'dashboard'])->name('dashboard');
+    Route::get('/list/{id}/{name}',[HomeController::class,'list'])->name('list');
+
+});
+
+
+
+
+
 

@@ -10,4 +10,9 @@ class HomeController extends Controller
        
 
     }
+
+    public function list (Request $req, $id,$name) {
+        
+        echo $id." ".$name;
+    }
 }
